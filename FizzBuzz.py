@@ -21,7 +21,8 @@ welcome to Fizz Buzz
         setupSingle()
         playOne()
     if choice == "2":
-        setupMulti()
+        names = setupMulti()
+        playMulti(names)
     if choice == "3":
         startupGen()
         displayResults()
@@ -106,6 +107,7 @@ def setupMulti():
     for each in range(int(num)):
         names.append(input("What is the name of player "+ str(each+1)+"\n"))
     startupGen()
+    return names
 
 
 def displayResults():
@@ -152,5 +154,42 @@ def playOne():
             print("correct\n")
         else:
             print("incorrect it was "+ temp+"\n")
-        
+
+
+def playMulti(players):
+    os.system('CLS')
+    global triggerWords
+    global triggerNumbers
+    global startNumber
+    global maxNumber
+    playerNum = 0
+    scores = []
+    for each in players:
+        scores.append(0)
+    for number in range(int(startNumber),int(maxNumber)+1):
+        temp = ""
+        counter = 0
+        found = False
+        for each in triggerNumbers:
+            each = int(each)
+            if number % each ==0:
+                temp +=  (triggerWords[counter] + " ")
+                found = True
+            counter +=1
+        if found == False:
+            temp = str(number )+ " "
+        ##print(temp)
+        guess = input(players[playerNum]+" please enter what you think it'll be?")
+        if (guess+" " == temp):
+            scores[playerNum] +=1
+            print("correct\nYour score is now "+ str(scores[playerNum]))
+        else:
+            print("incorrect it was "+ temp+"\n")
+        playerNum+=1
+        if playerNum >= len(players):
+            playerNum-=len(players)
+    print("Scores")
+    for i in range(len(players)):
+        print(str(players[i])+": "+ str(scores[i]))
+
 menu()
